@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  --bg-color: #fcf9f2; /* Cream / Old Paper */
+  --text-primary: #2d2a26;
+  --text-secondary: #6e6b66;
+  --accent-color: #d4a373;
+  --card-bg: #f4eee0;
+  --border-color: #e6dfd1;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.3s ease;
+}
+
+[data-theme='dark'] {
+  --bg-color: #1a1a1a;
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0a0;
+  --card-bg: #2a2a2a;
+  --border-color: #333;
+}
+
+[data-theme='midnight'] {
+  --bg-color: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-color: #7c9ec9;
+  --card-bg: #1e293b;
+  --border-color: #334155;
+}
+
+[data-theme='forest'] {
+  --bg-color: #1a2318;
+  --text-primary: #d8e8d2;
+  --text-secondary: #8aaa82;
+  --accent-color: #6aaa50;
+  --card-bg: #222e20;
+  --border-color: #2e3f2b;
+}
+
+[data-theme='vintage'] {
+  --bg-color: #f0e8d0;
+  --text-primary: #3d2b1f;
+  --text-secondary: #8c6a50;
+  --accent-color: #c0784a;
+  --card-bg: #e8dcc0;
+  --border-color: #d4c4a0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-slow), color var(--transition-slow);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pageTurnIn {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(-10deg) translateZ(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1200px) rotateY(0deg) translateZ(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-page-turn {
+  transform-origin: left center;
+  animation: pageTurnIn 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Page Container */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* UI Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme='dark'] .glass-panel, [data-theme='midnight'] .glass-panel {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
