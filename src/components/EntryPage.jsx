@@ -387,6 +387,10 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
           flex-direction: column;
           gap: 44px;
         }
+        @media (max-width: 600px) {
+          .entry-body { padding: 32px 16px 80px; gap: 36px; }
+          .entry-nav-inner { padding: 0 16px; }
+        }
         .entry-hero { text-align: left; }
         .entry-category-badge {
           display: inline-block;
@@ -438,6 +442,9 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
         }
         .entry-section { display: flex; flex-direction: column; gap: 14px; }
         .entry-section-row { flex-direction: row; gap: 24px; }
+        @media (max-width: 600px) {
+          .entry-section-row { flex-direction: column; gap: 32px; }
+        }
         .entry-half { flex: 1; display: flex; flex-direction: column; gap: 14px; }
         .entry-section-label {
           font-size: 0.7rem;
@@ -497,6 +504,9 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
           cursor: pointer;
           position: relative;
           transition: transform 0.25s ease;
+        }
+        @media (max-width: 600px) {
+          .gallery-item { width: 200px; height: 140px; }
         }
         .gallery-item:hover { transform: scale(1.02); }
         .gallery-item img {

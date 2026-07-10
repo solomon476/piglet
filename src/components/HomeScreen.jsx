@@ -195,6 +195,9 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
           margin: 0 auto;
           padding: 0 24px;
         }
+        @media (max-width: 600px) {
+          .home-header-inner { padding: 0 16px; }
+        }
         .home-brand {
           display: flex;
           align-items: center;
@@ -224,6 +227,9 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
           padding: 0 24px;
           position: relative;
           z-index: 10;
+        }
+        @media (max-width: 600px) {
+          .home-search-wrap { padding: 0 16px; margin-top: 16px; }
         }
         .home-search-box {
           display: flex;
@@ -292,6 +298,9 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
           flex-direction: column;
           gap: 48px;
         }
+        @media (max-width: 600px) {
+          .home-body { padding: 24px 16px 80px; gap: 40px; }
+        }
         .today-word-card {
           background: var(--card-bg);
           border: 1px solid var(--border-color);
@@ -301,6 +310,9 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
+        }
+        @media (max-width: 600px) {
+          .today-word-card { padding: 24px; }
         }
         .today-word-card::before {
           content: '';
