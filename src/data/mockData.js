@@ -21,11 +21,11 @@ export const entries = [
     },
     voiceId: "jfKfPfyJRdk", // Lofi hip hop radio placeholder
     timeline: [
-      { date: "Sometime early on", title: "First Conversation", details: "Talked for what felt like hours. Neither of us noticed the time passing." },
-      { date: "A random afternoon", title: "First Joke", details: "The moment the nickname was born. It wasn't supposed to stick." },
-      { date: "A special day", title: "Birthday", details: "Small cake, big laughs. The kind of celebration that doesn't need planning." },
-      { date: "That one weekend", title: "The Food Spot Run", details: "Standing outside in the sun, pretending to decide what to eat." },
-      { date: "Not long ago", title: "Latest Conversation", details: "Still talking about everything and nothing. Somehow that never gets old." }
+      { date: "Out of nowhere", title: "First Conversation", details: "Talked for what felt like hours. Neither of us noticed the time passing." },
+      { date: "Just because", title: "First Joke", details: "The moment the nickname was born. It wasn't supposed to stick." },
+      { date: "When I least expected it", title: "Birthday", details: "Small cake, big laughs. The kind of celebration that doesn't need planning." },
+      { date: "Whenever we feel like it", title: "The Food Spot Run", details: "Standing outside in the sun, pretending to decide what to eat." },
+      { date: "As usual", title: "Latest Conversation", details: "Still talking about everything and nothing. Somehow that never gets old." }
     ],
     mood: ["Nostalgic", "Comfortable", "Laughing", "Reflective"],
     locations: [
@@ -34,9 +34,8 @@ export const entries = [
       { name: "Museum", coordinates: { lat: -1.2736, lng: 36.8147 } }
     ],
     weather: {
-      condition: "Sunny",
-      temp: "23°C",
-      icon: "🌤️"
+      condition: "A warm afternoon sun",
+      temp: "Not too hot, just right",
     },
     related: ["whatscookin", "4pm", "norway", "latenightthoughts", "skybox"],
     quote: "Some people don't become important overnight. They become familiar, one ordinary conversation at a time."
@@ -108,12 +107,12 @@ export const entries = [
 ];
 
 export const categories = [
-  "📖 People",
-  "🎵 Songs",
-  "🌍 Places",
-  "💭 Thoughts",
-  "😂 Inside Jokes",
-  "📷 Memories",
-  "📝 Quotes",
-  "❤️ Moments"
+  "People",
+  "Songs",
+  "Places",
+  "Thoughts",
+  "Inside Jokes",
+  "Memories",
+  "Quotes",
+  "Moments"
 ];

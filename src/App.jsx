@@ -35,7 +35,7 @@ function App() {
 
   const selectedEntry = entries.find(e => e.id === selectedEntryId);
 
-  const sounds = ['None', '📄 Page Flip', '🌧️ Rain', '🌲 Forest', '🔥 Fireplace'];
+  const sounds = ['None', 'Page Flip', 'Rain', 'Forest', 'Fireplace'];
 
   return (
     <div style={{ transition: 'opacity 0.6s ease', opacity: isTransitioning ? 0 : 1 }}>

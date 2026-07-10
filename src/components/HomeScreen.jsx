@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Users, Music, MapPin, Lightbulb, Smile, Camera, Quote, Clock } from 'lucide-react';
 import { entries, categories } from '../data/mockData';
 
 const todayWord = entries[0];
@@ -130,11 +131,12 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
           <h3 className="section-title serif">Browse by Category</h3>
           <div className="categories-grid">
             {categories.map((cat, i) => {
-              const [emoji, ...rest] = cat.split(' ');
+              const icons = [Users, Music, MapPin, Lightbulb, Smile, Camera, Quote, Clock];
+              const IconComponent = icons[i];
               return (
                 <button key={i} className="category-card">
-                  <span className="category-emoji">{emoji}</span>
-                  <span className="category-label">{rest.join(' ')}</span>
+                  <IconComponent size={24} strokeWidth={1.5} className="category-icon" />
+                  <span className="category-label">{cat}</span>
                 </button>
               );
             })}
@@ -153,7 +155,11 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
               >
                 <span className="recent-card-word serif">{entry.word}</span>
                 <span className="recent-card-category">{entry.category}</span>
-                {entry.isFavorite && <span className="recent-card-fav">❤️</span>}
+                {entry.isFavorite && (
+                  <svg className="recent-card-fav" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                )}
               </button>
             ))}
           </div>
@@ -387,7 +393,8 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
           transform: translateY(-2px);
           box-shadow: var(--shadow-sm);
         }
-        .category-emoji { font-size: 1.4rem; }
+        .category-icon { color: var(--text-primary); opacity: 0.8; margin-bottom: 4px; transition: color 0.2s; }
+        .category-card:hover .category-icon { color: var(--accent-color); }
         .category-label { font-size: 0.72rem; color: var(--text-secondary); letter-spacing: 0.04em; text-align: center; }
         .recent-scroll {
           display: flex;
@@ -419,7 +426,7 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
         }
         .recent-card-word { font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-primary); }
         .recent-card-category { font-size: 0.7rem; color: var(--text-secondary); }
-        .recent-card-fav { position: absolute; top: 10px; right: 10px; font-size: 0.75rem; }
+        .recent-card-fav { position: absolute; top: 12px; right: 12px; color: var(--accent-color); }
       `}</style>
     </div>
   );

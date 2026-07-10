@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player';
+import { Heart, CloudSun } from 'lucide-react';
 import { entries } from '../data/mockData';
 
 export default function EntryPage({ entry, onBack, onSelectRelated }) {
@@ -41,7 +42,7 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
             Dictionary
           </button>
           <button className={`entry-fav ${isFav ? 'active' : ''}`} onClick={() => setIsFav(!isFav)}>
-            {isFav ? '❤️' : '🤍'}
+            <Heart size={22} fill={isFav ? 'var(--accent-color)' : 'none'} color={isFav ? 'var(--accent-color)' : 'currentColor'} strokeWidth={1.5} />
           </button>
         </div>
       </div>
@@ -183,7 +184,9 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
               <div className="entry-half">
                 <h2 className="entry-section-label">Weather</h2>
                 <div className="weather-badge">
-                  <span className="weather-icon">{entry.weather.icon}</span>
+                  <div className="weather-icon">
+                    <CloudSun size={28} strokeWidth={1.5} color="var(--accent-color)" />
+                  </div>
                   <div>
                     <p className="weather-cond serif">{entry.weather.condition}</p>
                     <p className="weather-temp">{entry.weather.temp}</p>
