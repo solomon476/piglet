@@ -1,452 +1,273 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Users, Music, MapPin, Lightbulb, Smile, Camera, Quote, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { entries, categories } from '../data/mockData';
-
-const todayWord = entries[0];
 
 export default function HomeScreen({ onSelectEntry, isTransitioning }) {
   const [query, setQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [showSearch, setShowSearch] = useState(false);
-  const [visible, setVisible] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
-  const searchRef = useRef(null);
+  const [bgImage, setBgImage] = useState('');
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setVisible(true), 50);
+    setVisible(true);
   }, []);
 
-  const handleSearch = (e) => {
-    const val = e.target.value;
-    setQuery(val);
-    if (val.length > 0) {
-      const results = entries.filter(en =>
-        en.word.toLowerCase().includes(val.toLowerCase())
-      );
-      setSearchResults(results);
-      setShowSearch(true);
-    } else {
-      setShowSearch(false);
-    }
-  };
+  // Filter entries based on query and category
+  const filteredEntries = entries.filter(e => {
+    const matchesQuery = e.word.toLowerCase().includes(query.toLowerCase()) || 
+                         e.definition.toLowerCase().includes(query.toLowerCase());
+    const matchesCategory = activeCategory ? e.category === activeCategory : true;
+    return matchesQuery && matchesCategory;
+  });
 
-  const clearSearch = () => {
-    setQuery('');
-    setShowSearch(false);
-  };
+  // Update background image based on active category
+  useEffect(() => {
+    if (activeCategory) {
+      const cat = categories.find(c => c.id === activeCategory);
+      if (cat) setBgImage(cat.image);
+    } else if (query && filteredEntries.length > 0 && filteredEntries[0].gallery && filteredEntries[0].gallery.length > 0) {
+      setBgImage(filteredEntries[0].gallery[0].url);
+    } else {
+      setBgImage('');
+    }
+  }, [activeCategory, query, filteredEntries]);
 
   return (
-    <div className={`screen-content home-screen ${visible ? 'visible' : ''}`}>
+    <div className={`home-immersive ${visible ? 'visible' : ''}`} style={{ opacity: isTransitioning ? 0 : 1 }}>
+      {/* Dynamic Ambient Background */}
+      <div className="home-ambient-bg" style={{ backgroundImage: bgImage ? `url(${bgImage})` : 'none', opacity: bgImage ? 0.25 : 0 }} />
+      <div className="home-ambient-overlay" />
 
-      {/* Header */}
-      <header className="home-header">
-        <div className="home-header-inner">
-          <div className="home-brand">
-            <svg className="home-brand-icon" viewBox="0 0 40 40" fill="currentColor">
-              <ellipse cx="20" cy="23" rx="13" ry="10" />
-              <ellipse cx="11" cy="18" rx="6" ry="5" />
-              <ellipse cx="10" cy="16" rx="3" ry="2" fill="var(--bg-color)" />
-              <circle cx="9" cy="16" r="0.8" fill="var(--text-primary)" />
-              <circle cx="11" cy="16" r="0.8" fill="var(--text-primary)" />
-              <ellipse cx="30" cy="21" rx="4" ry="3" />
-              <ellipse cx="15" cy="31" rx="2.5" ry="3" />
-              <ellipse cx="21" cy="32" rx="2.5" ry="3" />
-              <ellipse cx="27" cy="31" rx="2.5" ry="3" />
-            </svg>
-            <h1 className="home-brand-name serif">Piglet Dictionary</h1>
+      <div className="home-content">
+        <header className="home-header">
+          <h1 className="home-title serif">Piglet</h1>
+          <p className="home-subtitle">Every word has a story.</p>
+        </header>
+
+        <main className="home-main">
+          <div className="search-container">
+            <input 
+              type="text" 
+              className="immersive-search serif" 
+              placeholder="What are you remembering today?"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              autoFocus
+            />
+            <div className="search-underline" />
           </div>
-          <p className="home-brand-tag">Every word has a story.</p>
-        </div>
-      </header>
 
-      {/* Search */}
-      <div className="home-search-wrap">
-        <div className="home-search-box">
-          <svg className="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input
-            ref={searchRef}
-            className="home-search-input"
-            type="text"
-            placeholder="Search any word..."
-            value={query}
-            onChange={handleSearch}
-          />
-          {query && (
-            <button className="search-clear" onClick={clearSearch}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 6 6 18M6 6l12 12"/>
-              </svg>
-            </button>
-          )}
-        </div>
-
-        {/* Search Results Dropdown */}
-        {showSearch && (
-          <div className="search-results">
-            {searchResults.length > 0 ? searchResults.map(entry => (
-              <button
-                key={entry.id}
-                className="search-result-item"
-                onClick={() => { clearSearch(); onSelectEntry(entry.id); }}
-              >
-                <span className="search-result-word serif">{entry.word}</span>
-                <span className="search-result-category">{entry.category}</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            )) : (
-              <div className="search-empty">
-                <p>No entries found for "<em>{query}</em>"</p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Main content */}
-      <div className="home-body">
-
-        {/* Today's Word */}
-        <section className="today-word-card" onClick={() => onSelectEntry(todayWord.id)}>
-          <div className="today-word-label">
-            <span className="dot pulse" />
-            Today's Word
-          </div>
-          <h2 className="today-word-title serif">{todayWord.word}</h2>
-          <p className="today-word-pronunciation">{todayWord.pronunciation}</p>
-          <p className="today-word-def">"{todayWord.definition}"</p>
-          <div className="today-word-cta">
-            <span>Continue Reading</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </div>
-        </section>
-
-        {/* Categories */}
-        <section className="categories-section">
-          <h3 className="section-title serif">Browse by Category</h3>
-          <div className="categories-grid">
+          <div className="organic-categories">
             {categories.map((cat, i) => (
               <button 
                 key={i} 
-                className={`category-photo-card ${activeCategory === cat.id ? 'active' : ''}`}
+                className={`organic-category ${activeCategory === cat.id ? 'active' : ''}`}
                 onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
               >
-                <img src={cat.image} alt={cat.id} className="category-bg" />
-                <div className="category-overlay" />
-                <span className="category-photo-label serif">{cat.id}</span>
+                {cat.id}
               </button>
             ))}
           </div>
-        </section>
 
-        {/* Recent Entries */}
-        <section className="recent-section">
-          <h3 className="section-title serif">
-            {activeCategory ? `${activeCategory} Entries` : "Recent Entries"}
-          </h3>
-          <div className="recent-scroll">
-            {(activeCategory ? entries.filter(e => e.category === activeCategory) : entries.slice(0, 5)).map(entry => (
-              <button
-                key={entry.id}
-                className="recent-card"
+          <div className="results-container">
+            {filteredEntries.map((entry, i) => (
+              <button 
+                key={entry.id} 
+                className="result-item"
                 onClick={() => onSelectEntry(entry.id)}
+                style={{ animationDelay: `${i * 0.1}s` }}
+                onMouseEnter={() => {
+                  if (entry.gallery && entry.gallery.length > 0) {
+                    setBgImage(entry.gallery[0].url);
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (!activeCategory) setBgImage('');
+                }}
               >
-                <span className="recent-card-word serif">{entry.word}</span>
-                <span className="recent-card-category">{entry.category}</span>
-                {entry.isFavorite && (
-                  <svg className="recent-card-fav" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                  </svg>
-                )}
+                <span className="result-word serif">{entry.word}</span>
+                <span className="result-def">{entry.definition}</span>
               </button>
             ))}
           </div>
-        </section>
-
+        </main>
       </div>
 
       <style>{`
-        .home-screen {
+        .home-immersive {
           min-height: 100vh;
-          background: var(--bg-color);
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.9s ease, transform 0.9s ease;
-        }
-        .home-screen.visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .home-header {
-          border-bottom: 1px solid var(--border-color);
-          padding: 28px 0 20px;
-          background: var(--bg-color);
-          position: sticky;
-          top: 0;
-          z-index: 20;
-        }
-        .home-header-inner {
-          max-width: 700px;
-          margin: 0 auto;
-          padding: 0 24px;
-        }
-        @media (max-width: 600px) {
-          .home-header-inner { padding: 0 16px; }
-        }
-        .home-brand {
+          position: relative;
           display: flex;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 4px;
-        }
-        .home-brand-icon {
-          width: 32px;
-          height: 32px;
-          color: var(--accent-color);
-          opacity: 0.8;
-        }
-        .home-brand-name {
-          font-size: 1.5rem;
-          font-weight: 400;
+          flex-direction: column;
           color: var(--text-primary);
+          opacity: 0;
+          transition: opacity 1.5s ease;
+          overflow: hidden;
         }
-        .home-brand-tag {
-          font-size: 0.75rem;
-          color: var(--text-secondary);
-          letter-spacing: 0.12em;
-          margin-left: 44px;
+        .home-immersive.visible {
+          opacity: 1;
         }
-        .home-search-wrap {
-          max-width: 700px;
-          margin: 24px auto 0;
-          padding: 0 24px;
+        .home-ambient-bg {
+          position: absolute;
+          inset: -5%;
+          width: 110%;
+          height: 110%;
+          background-size: cover;
+          background-position: center;
+          filter: blur(40px) saturate(1.5);
+          transition: background-image 1.5s ease, opacity 2s ease;
+          z-index: 0;
+        }
+        .home-ambient-overlay {
+          position: absolute;
+          inset: 0;
+          background: var(--bg-color);
+          opacity: 0.85;
+          z-index: 1;
+        }
+        
+        [data-theme='dark'] .home-ambient-bg, [data-theme='midnight'] .home-ambient-bg {
+          opacity: 0.4 !important;
+        }
+        [data-theme='dark'] .home-ambient-overlay, [data-theme='midnight'] .home-ambient-overlay {
+          opacity: 0.9;
+        }
+
+        .home-content {
           position: relative;
           z-index: 10;
-        }
-        @media (max-width: 600px) {
-          .home-search-wrap { padding: 0 16px; margin-top: 16px; }
-        }
-        .home-search-box {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          background: var(--card-bg);
-          border: 1px solid var(--border-color);
-          border-radius: 4px;
-          padding: 14px 18px;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .home-search-box:focus-within {
-          border-color: var(--accent-color);
-          box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.12);
-        }
-        .search-icon { color: var(--text-secondary); flex-shrink: 0; }
-        .home-search-input {
           flex: 1;
-          background: none;
-          border: none;
-          outline: none;
-          font-family: var(--font-sans);
-          font-size: 0.95rem;
-          color: var(--text-primary);
-        }
-        .home-search-input::placeholder { color: var(--text-secondary); }
-        .search-clear {
-          color: var(--text-secondary);
-          transition: color 0.2s;
-        }
-        .search-clear:hover { color: var(--text-primary); }
-        .search-results {
-          position: absolute;
-          top: calc(100% + 6px);
-          left: 24px;
-          right: 24px;
-          background: var(--bg-color);
-          border: 1px solid var(--border-color);
-          border-radius: 4px;
-          box-shadow: var(--shadow-md);
-          overflow: hidden;
-          animation: slideUp 0.25s ease;
-        }
-        .search-result-item {
           display: flex;
-          align-items: center;
-          gap: 10px;
-          width: 100%;
-          padding: 14px 18px;
-          border-bottom: 1px solid var(--border-color);
-          background: none;
-          text-align: left;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-        .search-result-item:last-child { border-bottom: none; }
-        .search-result-item:hover { background: var(--card-bg); }
-        .search-result-word { font-family: var(--font-serif); font-size: 1rem; flex: 1; }
-        .search-result-category { font-size: 0.75rem; color: var(--text-secondary); }
-        .search-empty { padding: 18px; text-align: center; color: var(--text-secondary); font-size: 0.85rem; }
-        .home-body {
-          max-width: 700px;
+          flex-direction: column;
+          padding: 60px 24px;
+          max-width: 900px;
           margin: 0 auto;
-          padding: 32px 24px 80px;
-          display: flex;
-          flex-direction: column;
-          gap: 48px;
+          width: 100%;
         }
-        @media (max-width: 600px) {
-          .home-body { padding: 24px 16px 80px; gap: 40px; }
+
+        .home-header {
+          text-align: center;
+          margin-bottom: 12vh;
         }
-        .today-word-card {
-          background: var(--card-bg);
-          border: 1px solid var(--border-color);
-          border-radius: 4px;
-          padding: 32px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-        @media (max-width: 600px) {
-          .today-word-card { padding: 24px; }
-        }
-        .today-word-card::before {
-          content: '';
-          position: absolute;
-          left: 0; top: 0; bottom: 0;
-          width: 3px;
-          background: var(--accent-color);
-        }
-        .today-word-card:hover {
-          transform: translateY(-3px);
-          box-shadow: var(--shadow-md);
-        }
-        .today-word-label {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.75rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: var(--text-secondary);
-          margin-bottom: 16px;
-        }
-        .dot {
-          width: 7px; height: 7px;
-          border-radius: 50%;
-          background: var(--accent-color);
-        }
-        .dot.pulse {
-          animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(1.3); }
-        }
-        .today-word-title {
-          font-size: clamp(2rem, 5vw, 3rem);
-          font-weight: 400;
-          letter-spacing: -0.02em;
-          margin-bottom: 6px;
-        }
-        .today-word-pronunciation {
-          font-size: 0.85rem;
-          color: var(--text-secondary);
-          letter-spacing: 0.04em;
-          margin-bottom: 16px;
-          font-style: italic;
-        }
-        .today-word-def {
-          font-size: 1rem;
-          color: var(--text-secondary);
-          line-height: 1.7;
-          font-style: italic;
-          margin-bottom: 24px;
-          padding-left: 16px;
-          border-left: 2px solid var(--border-color);
-        }
-        .today-word-cta {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.82rem;
-          color: var(--accent-color);
-          letter-spacing: 0.06em;
-        }
-        .section-title {
+        .home-title {
           font-size: 1.2rem;
-          font-weight: 400;
-          margin-bottom: 18px;
-          color: var(--text-primary);
+          letter-spacing: 0.15em;
+          opacity: 0.5;
+          text-transform: uppercase;
         }
-        .categories-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 12px;
+        .home-subtitle {
+          font-size: 0.75rem;
+          opacity: 0.3;
+          text-transform: uppercase;
+          letter-spacing: 0.25em;
+          margin-top: 12px;
         }
-        @media (max-width: 500px) {
-          .categories-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        .category-photo-card {
-          position: relative;
-          height: 110px;
-          border-radius: 6px;
-          overflow: hidden;
-          cursor: pointer;
-          border: 1px solid var(--border-color);
-          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .category-photo-card:hover { transform: scale(1.04); border-color: var(--accent-color); z-index: 2; box-shadow: var(--shadow-md); }
-        .category-photo-card.active { border: 2px solid var(--accent-color); transform: scale(1.06); z-index: 3; box-shadow: var(--shadow-md); }
-        .category-bg {
-          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-          transition: transform 0.6s ease;
-        }
-        .category-photo-card:hover .category-bg { transform: scale(1.15); }
-        .category-overlay {
-          position: absolute; inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1));
-        }
-        .category-photo-label {
-          position: absolute; bottom: 12px; left: 14px;
-          color: rgba(255, 255, 255, 0.95); font-size: 1.1rem; font-weight: 400; z-index: 2;
-          text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-        }
-        .recent-scroll {
-          display: flex;
-          gap: 12px;
-          overflow-x: auto;
-          padding-bottom: 8px;
-          scrollbar-width: thin;
-          scrollbar-color: var(--border-color) transparent;
-        }
-        .recent-card {
-          flex-shrink: 0;
+
+        .home-main {
           display: flex;
           flex-direction: column;
-          gap: 6px;
-          align-items: flex-start;
-          padding: 20px 22px;
-          background: var(--card-bg);
-          border: 1px solid var(--border-color);
-          border-radius: 4px;
-          min-width: 140px;
-          cursor: pointer;
-          transition: all 0.25s ease;
+          align-items: center;
+          flex: 1;
+        }
+
+        .search-container {
+          width: 100%;
+          max-width: 700px;
           position: relative;
+          margin-bottom: 50px;
         }
-        .recent-card:hover {
-          border-color: var(--accent-color);
+        .immersive-search {
+          width: 100%;
+          background: transparent;
+          border: none;
+          color: var(--text-primary);
+          font-size: clamp(2.5rem, 6vw, 4rem);
+          text-align: center;
+          outline: none;
+          padding: 10px 0;
+          transition: color 0.4s ease;
+        }
+        .immersive-search::placeholder {
+          color: var(--text-primary);
+          opacity: 0.15;
+        }
+        .search-underline {
+          height: 1px;
+          width: 0%;
+          background: var(--text-primary);
+          margin: 0 auto;
+          transition: width 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+          opacity: 0.2;
+        }
+        .immersive-search:focus + .search-underline {
+          width: 60%;
+        }
+
+        .organic-categories {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 32px;
+          margin-bottom: 60px;
+        }
+        .organic-category {
+          font-size: 0.85rem;
+          color: var(--text-primary);
+          text-transform: uppercase;
+          letter-spacing: 0.2em;
+          opacity: 0.4;
+          transition: all 0.5s ease;
+          position: relative;
+          padding: 4px 8px;
+        }
+        .organic-category:hover {
+          opacity: 0.8;
           transform: translateY(-2px);
-          box-shadow: var(--shadow-sm);
         }
-        .recent-card-word { font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-primary); }
-        .recent-card-category { font-size: 0.7rem; color: var(--text-secondary); }
-        .recent-card-fav { position: absolute; top: 12px; right: 12px; color: var(--accent-color); }
+        .organic-category.active {
+          opacity: 1;
+          color: var(--accent-color);
+        }
+
+        .results-container {
+          width: 100%;
+          max-width: 640px;
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
+          padding-bottom: 80px;
+        }
+        .result-item {
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+          gap: 12px;
+          padding: 24px;
+          border-radius: 4px;
+          transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+          animation: slideUp 0.8s ease forwards;
+          opacity: 0;
+          border-left: 1px solid transparent;
+        }
+        .result-item:hover {
+          transform: translateX(12px);
+          border-left: 1px solid var(--accent-color);
+        }
+        .result-word {
+          font-size: 2.5rem;
+          color: var(--text-primary);
+          transition: color 0.4s ease;
+        }
+        .result-item:hover .result-word {
+          color: var(--accent-color);
+        }
+        .result-def {
+          font-size: 1.1rem;
+          color: var(--text-secondary);
+          line-height: 1.6;
+          opacity: 0.7;
+          font-family: var(--font-serif);
+          font-style: italic;
+        }
       `}</style>
     </div>
   );

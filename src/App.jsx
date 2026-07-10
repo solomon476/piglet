@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Settings } from 'lucide-react';
 import OpeningScreen from './components/OpeningScreen';
 import HomeScreen from './components/HomeScreen';
 import EntryPage from './components/EntryPage';
@@ -64,16 +65,15 @@ function App() {
           style={{
             position: 'fixed', bottom: '28px', right: '28px', zIndex: 50,
             width: '44px', height: '44px', borderRadius: '50%',
-            background: 'var(--card-bg)', border: '1px solid var(--border-color)',
+            background: 'transparent',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: 'var(--shadow-md)', color: 'var(--text-secondary)',
-            cursor: 'pointer', transition: 'all 0.2s',
-            fontSize: '1rem'
+            color: 'var(--text-secondary)',
+            cursor: 'pointer', transition: 'all 0.4s ease',
           }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'rotate(30deg) scale(1.1)'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'rotate(0) scale(1)'; }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.transform = 'rotate(45deg)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.transform = 'rotate(0)'; }}
         >
-          ⚙️
+          <Settings size={20} strokeWidth={1.5} />
         </button>
       )}
 
@@ -89,43 +89,45 @@ function App() {
         >
           <div
             style={{
-              background: 'var(--bg-color)', borderTop: '1px solid var(--border-color)',
-              borderRadius: '12px 12px 0 0',
-              padding: '32px 24px 48px', width: '100%', maxWidth: '700px',
-              animation: 'slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              background: 'var(--bg-color)', 
+              borderRadius: '24px 24px 0 0',
+              padding: '40px 32px 60px', width: '100%', maxWidth: '700px',
+              animation: 'slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              boxShadow: '0 -10px 40px rgba(0,0,0,0.1)'
             }}
             onClick={e => e.stopPropagation()}
           >
             {/* Handle */}
             <div style={{
-              width: '40px', height: '4px', background: 'var(--border-color)',
-              borderRadius: '2px', margin: '0 auto 28px',
+              width: '32px', height: '3px', background: 'var(--text-secondary)', opacity: 0.3,
+              borderRadius: '2px', margin: '0 auto 40px',
             }} />
 
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', marginBottom: '28px', fontStyle: 'italic' }}>
+            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', marginBottom: '40px', fontStyle: 'italic', textAlign: 'center', color: 'var(--text-primary)' }}>
               Settings
             </h2>
 
             {/* Theme */}
-            <div style={{ marginBottom: '32px' }}>
-              <p style={{ fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '14px' }}>
-                Theme
+            <div style={{ marginBottom: '40px' }}>
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '20px', textAlign: 'center' }}>
+                Atmosphere
               </p>
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {themes.map(t => (
                   <button
                     key={t.id}
                     onClick={() => setTheme(t.id)}
                     style={{
-                      padding: '10px 18px',
-                      border: `1px solid ${theme === t.id ? 'var(--accent-color)' : 'var(--border-color)'}`,
-                      borderRadius: '3px',
-                      background: theme === t.id ? 'var(--accent-color)' : 'var(--card-bg)',
-                      color: theme === t.id ? 'var(--bg-color)' : 'var(--text-primary)',
+                      padding: '8px 20px',
+                      border: `1px solid ${theme === t.id ? 'var(--text-primary)' : 'transparent'}`,
+                      borderRadius: '30px',
+                      background: 'transparent',
+                      color: theme === t.id ? 'var(--text-primary)' : 'var(--text-secondary)',
                       fontSize: '0.85rem',
                       cursor: 'pointer',
-                      transition: 'all 0.2s',
+                      transition: 'all 0.4s ease',
                       fontFamily: 'var(--font-sans)',
+                      letterSpacing: '0.05em'
                     }}
                   >
                     {t.label}
@@ -136,24 +138,25 @@ function App() {
 
             {/* Ambient Sound */}
             <div>
-              <p style={{ fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '14px' }}>
-                Ambient Sound
+              <p style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '20px', textAlign: 'center' }}>
+                Background Sound
               </p>
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {sounds.map(s => (
                   <button
                     key={s}
                     onClick={() => setAmbientSound(s === 'None' ? null : s)}
                     style={{
-                      padding: '10px 18px',
-                      border: `1px solid ${ambientSound === s || (s === 'None' && !ambientSound) ? 'var(--accent-color)' : 'var(--border-color)'}`,
-                      borderRadius: '3px',
-                      background: ambientSound === s || (s === 'None' && !ambientSound) ? 'var(--accent-color)' : 'var(--card-bg)',
-                      color: ambientSound === s || (s === 'None' && !ambientSound) ? 'var(--bg-color)' : 'var(--text-primary)',
+                      padding: '8px 20px',
+                      border: `1px solid ${ambientSound === s || (s === 'None' && !ambientSound) ? 'var(--text-primary)' : 'transparent'}`,
+                      borderRadius: '30px',
+                      background: 'transparent',
+                      color: ambientSound === s || (s === 'None' && !ambientSound) ? 'var(--text-primary)' : 'var(--text-secondary)',
                       fontSize: '0.85rem',
                       cursor: 'pointer',
-                      transition: 'all 0.2s',
+                      transition: 'all 0.4s ease',
                       fontFamily: 'var(--font-sans)',
+                      letterSpacing: '0.05em'
                     }}
                   >
                     {s}
