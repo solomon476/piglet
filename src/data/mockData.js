@@ -16,16 +16,18 @@ export const entries = [
     ],
     music: {
       title: "She's Lookin' For Me",
-      artist: "Unknown"
+      artist: "Kid Cudi",
+      youtubeId: "kYJv8ZgK9Jg"
     },
+    voiceId: "jfKfPfyJRdk", // Lofi hip hop radio placeholder
     timeline: [
-      { date: "March 12, 2026", title: "First Conversation", details: "Talked for 3 hours straight." },
-      { date: "April 5, 2026", title: "First Joke", details: "The moment the nickname was born." },
-      { date: "May 20, 2026", title: "Birthday", details: "Celebrated with a small cake and big laughs." },
-      { date: "June 15, 2026", title: "Museum Plan", details: "Getting lost in the modern art section." },
-      { date: "July 9, 2026", title: "Latest Conversation", details: "Still talking about everything and nothing." }
+      { date: "Sometime early on", title: "First Conversation", details: "Talked for what felt like hours. Neither of us noticed the time passing." },
+      { date: "A random afternoon", title: "First Joke", details: "The moment the nickname was born. It wasn't supposed to stick." },
+      { date: "A special day", title: "Birthday", details: "Small cake, big laughs. The kind of celebration that doesn't need planning." },
+      { date: "That one weekend", title: "The Food Spot Run", details: "Standing outside in the sun, pretending to decide what to eat." },
+      { date: "Not long ago", title: "Latest Conversation", details: "Still talking about everything and nothing. Somehow that never gets old." }
     ],
-    mood: ["😊", "😅", "🤍", "💭", "🌧️"],
+    mood: ["Nostalgic", "Comfortable", "Laughing", "Reflective"],
     locations: [
       { name: "Nairobi", coordinates: { lat: -1.2921, lng: 36.8219 } },
       { name: "Campus", coordinates: { lat: -1.3000, lng: 36.8000 } },
@@ -50,7 +52,7 @@ export const entries = [
     story: "Used exclusively when entering a room where someone is clearly plotting something.",
     gallery: [],
     timeline: [],
-    mood: ["😅", "👀"],
+    mood: ["Mischievous", "Knowing", "Suspicious"],
     locations: [],
     related: ["piglet"],
     quote: "It's never about the food."
@@ -66,7 +68,7 @@ export const entries = [
     story: "A moment of stillness. The golden hour of the afternoon.",
     gallery: [],
     timeline: [],
-    mood: ["🤍", "💭"],
+    mood: ["Peaceful", "Still", "Golden"],
     locations: [],
     related: ["piglet", "latenightthoughts"],
     quote: "Time is just a measure of how much light we have left."
@@ -82,7 +84,7 @@ export const entries = [
     story: "It started as a joke about escaping the heat, and turned into a recurring dream of cabins and fjords.",
     gallery: [],
     timeline: [],
-    mood: ["❄️", "🏔️"],
+    mood: ["Dreamy", "Cold", "Adventurous"],
     locations: [],
     related: ["piglet"],
     quote: "Sometimes the best trips are the ones you only take in your mind."
@@ -98,7 +100,7 @@ export const entries = [
     story: "A necessary phase. Do not disturb.",
     gallery: [],
     timeline: [],
-    mood: ["😴", "🛌"],
+    mood: ["Exhausted", "Cozy", "Quiet"],
     locations: [],
     related: [],
     quote: "Rest is not a luxury, it's a requirement."

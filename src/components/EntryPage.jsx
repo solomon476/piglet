@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactPlayer from 'react-player';
 import { entries } from '../data/mockData';
 
 export default function EntryPage({ entry, onBack, onSelectRelated }) {
@@ -8,6 +9,7 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [expandedTimeline, setExpandedTimeline] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlayingVoice, setIsPlayingVoice] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [notes, setNotes] = useState('');
   const [privateNote, setPrivateNote] = useState('');
@@ -127,6 +129,17 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 )}
               </button>
+              
+              {entry.music.youtubeId && (
+                <div style={{ display: 'none' }}>
+                  <ReactPlayer 
+                    url={`https://www.youtube.com/watch?v=${entry.music.youtubeId}`} 
+                    playing={isPlaying} 
+                    volume={0.4}
+                    onEnded={() => setIsPlaying(false)}
+                  />
+                </div>
+              )}
             </div>
           </section>
         )}
@@ -158,9 +171,9 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
           <section className="entry-section entry-section-row">
             <div className="entry-half">
               <h2 className="entry-section-label">Mood</h2>
-              <div className="mood-icons">
+              <div className="mood-tags">
                 {entry.mood.map((m, i) => (
-                  <span key={i} className="mood-icon">{m}</span>
+                  <span key={i} className="mood-tag">{m}</span>
                 ))}
               </div>
             </div>
@@ -203,21 +216,40 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
         )}
 
         {/* Voice Note */}
-        <section className="entry-section">
-          <h2 className="entry-section-label">Voice Memory</h2>
-          <div className="voice-card">
-            <div className="voice-wave">
-              {[...Array(24)].map((_, i) => (
-                <div key={i} className="wave-bar" style={{ height: `${10 + Math.sin(i * 0.8) * 18 + Math.random() * 12}px` }} />
-              ))}
+        {entry.voiceId && (
+          <section className="entry-section">
+            <h2 className="entry-section-label">Voice Memory</h2>
+            <div className="voice-card">
+              <div className="voice-wave">
+                {[...Array(24)].map((_, i) => (
+                  <div key={i} className="wave-bar" style={{ 
+                    height: `${10 + Math.sin(i * 0.8) * 18 + Math.random() * 12}px`,
+                    animation: isPlayingVoice ? `waveAnim ${0.8 + Math.random() * 0.5}s infinite ease-in-out alternate` : 'none',
+                    animationDelay: `${i * 0.05}s`
+                  }} />
+                ))}
+              </div>
+              <button className="voice-play" onClick={() => setIsPlayingVoice(!isPlayingVoice)}>
+                {isPlayingVoice ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                )}
+                {isPlayingVoice ? 'Pause Memory' : 'Play Memory'}
+              </button>
+              <p className="voice-hint">Imagine hearing yourself, years later.</p>
+
+              <div style={{ display: 'none' }}>
+                <ReactPlayer 
+                  url={`https://www.youtube.com/watch?v=${entry.voiceId}`} 
+                  playing={isPlayingVoice} 
+                  volume={0.6}
+                  onEnded={() => setIsPlayingVoice(false)}
+                />
+              </div>
             </div>
-            <button className="voice-play">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Play Memory
-            </button>
-            <p className="voice-hint">Imagine hearing yourself, years later.</p>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Related Entries */}
         {relatedEntries.length > 0 && (
@@ -546,13 +578,20 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
           line-height: 1.6;
           animation: slideUp 0.3s ease;
         }
-        .mood-icons { display: flex; gap: 14px; flex-wrap: wrap; }
-        .mood-icon {
-          font-size: 1.6rem;
-          cursor: default;
-          transition: transform 0.2s;
+        .mood-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .mood-tag {
+          font-size: 0.75rem;
+          color: var(--text-primary);
+          background: var(--card-bg);
+          border: 1px solid var(--border-color);
+          padding: 6px 14px;
+          border-radius: 20px;
+          transition: all 0.2s;
         }
-        .mood-icon:hover { transform: scale(1.3) rotate(5deg); }
+        .mood-tag:hover {
+          border-color: var(--accent-color);
+          transform: translateY(-2px);
+        }
         .weather-badge {
           display: flex;
           align-items: center;
