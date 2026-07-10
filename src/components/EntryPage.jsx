@@ -132,12 +132,14 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
               </button>
               
               {entry.music.youtubeId && (
-                <div style={{ display: 'none' }}>
+                <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}>
                   <ReactPlayer 
                     url={`https://www.youtube.com/watch?v=${entry.music.youtubeId}`} 
                     playing={isPlaying} 
                     volume={0.4}
+                    width="1px" height="1px"
                     onEnded={() => setIsPlaying(false)}
+                    config={{ youtube: { playerVars: { origin: typeof window !== 'undefined' ? window.location.origin : '' } } }}
                   />
                 </div>
               )}
@@ -242,12 +244,14 @@ export default function EntryPage({ entry, onBack, onSelectRelated }) {
               </button>
               <p className="voice-hint">Imagine hearing yourself, years later.</p>
 
-              <div style={{ display: 'none' }}>
+              <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }}>
                 <ReactPlayer 
                   url={`https://www.youtube.com/watch?v=${entry.voiceId}`} 
                   playing={isPlayingVoice} 
                   volume={0.6}
+                  width="1px" height="1px"
                   onEnded={() => setIsPlayingVoice(false)}
+                  config={{ youtube: { playerVars: { origin: typeof window !== 'undefined' ? window.location.origin : '' } } }}
                 />
               </div>
             </div>

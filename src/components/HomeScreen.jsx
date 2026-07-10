@@ -3,13 +3,13 @@ import { Users, Music, MapPin, Lightbulb, Smile, Camera, Quote, Clock } from 'lu
 import { entries, categories } from '../data/mockData';
 
 const todayWord = entries[0];
-const recentEntries = entries.slice(0, 5);
 
 export default function HomeScreen({ onSelectEntry, isTransitioning }) {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(null);
   const searchRef = useRef(null);
 
   useEffect(() => {
@@ -130,24 +130,27 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
         <section className="categories-section">
           <h3 className="section-title serif">Browse by Category</h3>
           <div className="categories-grid">
-            {categories.map((cat, i) => {
-              const icons = [Users, Music, MapPin, Lightbulb, Smile, Camera, Quote, Clock];
-              const IconComponent = icons[i];
-              return (
-                <button key={i} className="category-card">
-                  <IconComponent size={24} strokeWidth={1.5} className="category-icon" />
-                  <span className="category-label">{cat}</span>
-                </button>
-              );
-            })}
+            {categories.map((cat, i) => (
+              <button 
+                key={i} 
+                className={`category-photo-card ${activeCategory === cat.id ? 'active' : ''}`}
+                onClick={() => setActiveCategory(activeCategory === cat.id ? null : cat.id)}
+              >
+                <img src={cat.image} alt={cat.id} className="category-bg" />
+                <div className="category-overlay" />
+                <span className="category-photo-label serif">{cat.id}</span>
+              </button>
+            ))}
           </div>
         </section>
 
         {/* Recent Entries */}
         <section className="recent-section">
-          <h3 className="section-title serif">Recent Entries</h3>
+          <h3 className="section-title serif">
+            {activeCategory ? `${activeCategory} Entries` : "Recent Entries"}
+          </h3>
           <div className="recent-scroll">
-            {recentEntries.map(entry => (
+            {(activeCategory ? entries.filter(e => e.category === activeCategory) : entries.slice(0, 5)).map(entry => (
               <button
                 key={entry.id}
                 className="recent-card"
@@ -371,31 +374,36 @@ export default function HomeScreen({ onSelectEntry, isTransitioning }) {
         .categories-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 10px;
+          gap: 12px;
         }
         @media (max-width: 500px) {
           .categories-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        .category-card {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-          padding: 18px 12px;
-          background: var(--card-bg);
-          border: 1px solid var(--border-color);
-          border-radius: 4px;
+        .category-photo-card {
+          position: relative;
+          height: 110px;
+          border-radius: 6px;
+          overflow: hidden;
           cursor: pointer;
-          transition: all 0.25s ease;
+          border: 1px solid var(--border-color);
+          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .category-card:hover {
-          border-color: var(--accent-color);
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-sm);
+        .category-photo-card:hover { transform: scale(1.04); border-color: var(--accent-color); z-index: 2; box-shadow: var(--shadow-md); }
+        .category-photo-card.active { border: 2px solid var(--accent-color); transform: scale(1.06); z-index: 3; box-shadow: var(--shadow-md); }
+        .category-bg {
+          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.6s ease;
         }
-        .category-icon { color: var(--text-primary); opacity: 0.8; margin-bottom: 4px; transition: color 0.2s; }
-        .category-card:hover .category-icon { color: var(--accent-color); }
-        .category-label { font-size: 0.72rem; color: var(--text-secondary); letter-spacing: 0.04em; text-align: center; }
+        .category-photo-card:hover .category-bg { transform: scale(1.15); }
+        .category-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1));
+        }
+        .category-photo-label {
+          position: absolute; bottom: 12px; left: 14px;
+          color: rgba(255, 255, 255, 0.95); font-size: 1.1rem; font-weight: 400; z-index: 2;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
         .recent-scroll {
           display: flex;
           gap: 12px;

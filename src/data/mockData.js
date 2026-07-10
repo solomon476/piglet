@@ -107,12 +107,12 @@ export const entries = [
 ];
 
 export const categories = [
-  "People",
-  "Songs",
-  "Places",
-  "Thoughts",
-  "Inside Jokes",
-  "Memories",
-  "Quotes",
-  "Moments"
+  { id: "People", image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=400" },
+  { id: "Songs", image: "https://images.unsplash.com/photo-1458560871784-56d23406c091?auto=format&fit=crop&q=80&w=400" },
+  { id: "Places", image: "https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?auto=format&fit=crop&q=80&w=400" },
+  { id: "Thoughts", image: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&q=80&w=400" },
+  { id: "Inside Jokes", image: "https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?auto=format&fit=crop&q=80&w=400" },
+  { id: "Memories", image: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?auto=format&fit=crop&q=80&w=400" },
+  { id: "Quotes", image: "https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&q=80&w=400" },
+  { id: "Moments", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=400" }
 ];
