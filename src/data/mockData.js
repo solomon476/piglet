@@ -11,13 +11,15 @@ export const entries = [
     definition: "Someone who quietly became part of an ordinary chapter until the chapter was no longer ordinary.",
     story: "It started with a simple message and a nickname that just stuck. Piglet wasn't supposed to mean anything profound, just a funny little name. But over time, it became a shorthand for comfortable silences, late-night conversations, and the kind of understanding you don't really have to explain. Sometimes the most important people sneak into your life when you aren't looking.",
     gallery: [
-      { type: "image", url: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800", caption: "The crew 🤞" },
-      { type: "image", url: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?auto=format&fit=crop&q=80&w=800", caption: "Low angle vibes" }
+      { type: "image", url: "/images/photo1.jpg", caption: "The crew 🤞" },
+      { type: "image", url: "/images/photo2.jpg", caption: "Low angle vibes" },
+      { type: "image", url: "/images/photo3.jpg", caption: "Full squad 😂" },
+      { type: "image", url: "/images/photo4.jpg", caption: "The serious version" }
     ],
     music: {
       title: "She's Lookin' For Me",
       artist: "Kid Cudi",
-      youtubeId: "kYJv8ZgK9Jg"
+      youtubeId: "jfKfPfyJRdk" // Replaced with a working Lofi radio ID as placeholder since official music videos block embeds
     },
     voiceId: "jfKfPfyJRdk", // Lofi hip hop radio placeholder
     timeline: [

@@ -11,8 +11,8 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Inter', sans-serif;
-  --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-fast: 0.3s ease;
+  --transition-slow: 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.5s ease;
 }
 
 [data-theme='dark'] {
@@ -48,6 +48,15 @@
   --accent-color: #c0784a;
   --card-bg: #e8dcc0;
   --border-color: #d4c4a0;
+}
+
+[data-theme='soul'] {
+  --bg-color: #f8f4f1; /* Soft warm pink/cream */
+  --text-primary: #4a3f3b;
+  --text-secondary: #9c8e87;
+  --accent-color: #e5a999;
+  --card-bg: #f3ece8;
+  --border-color: #e8ded8;
 }
 
 * {

@@ -15,6 +15,7 @@ import { entries } from './data/mockData';
 import { getSettings, saveSettings, getDaysSinceLastVisit, updateLastVisit } from './utils/storage';
 
 const themes = [
+  { id: 'soul', label: 'Soul' },
   { id: 'old-paper', label: 'Old Paper' },
   { id: 'dark', label: 'Dark' },
   { id: 'midnight', label: 'Midnight' },

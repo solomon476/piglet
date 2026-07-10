@@ -1,7 +1,7 @@
 const STORAGE_KEY = 'piglet_settings_v1';
 
 const defaultSettings = {
-  theme: 'old-paper',
+  theme: 'soul',
   ambientSound: null,
   pinnedEntryId: 'piglet', // Default to Piglet
   alwaysShowPinnedFirst: true, // If true, skips opening screen or changes it
