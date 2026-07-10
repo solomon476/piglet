@@ -6,13 +6,13 @@ export const entries = [
     category: "People",
     created: "2026",
     isFavorite: true,
+    targetDate: "2026-11-15T00:00:00", // Example for birthday countdown
+    targetLabel: "Piglet's Birthday",
     definition: "Someone who quietly became part of an ordinary chapter until the chapter was no longer ordinary.",
     story: "It started with a simple message and a nickname that just stuck. Piglet wasn't supposed to mean anything profound, just a funny little name. But over time, it became a shorthand for comfortable silences, late-night conversations, and the kind of understanding you don't really have to explain. Sometimes the most important people sneak into your life when you aren't looking.",
     gallery: [
-      { type: "image", url: "/images/photo1.jpg", caption: "The crew 🤞" },
-      { type: "image", url: "/images/photo2.jpg", caption: "Low angle vibes" },
-      { type: "image", url: "/images/photo3.jpg", caption: "Full squad 😂" },
-      { type: "image", url: "/images/photo4.jpg", caption: "The serious version" }
+      { type: "image", url: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800", caption: "The crew 🤞" },
+      { type: "image", url: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?auto=format&fit=crop&q=80&w=800", caption: "Low angle vibes" }
     ],
     music: {
       title: "She's Lookin' For Me",
@@ -89,20 +89,36 @@ export const entries = [
     quote: "Sometimes the best trips are the ones you only take in your mind."
   },
   {
-    id: "hibernation",
-    word: "Hibernation",
-    pronunciation: "/hahy-ber-ney-shuhn/",
-    category: "Thoughts",
+    id: "skybox",
+    word: "Skybox",
+    pronunciation: "/skahy-boks/",
+    category: "Places",
     created: "2026",
     isFavorite: false,
-    definition: "The act of retreating from the world to recharge your social battery.",
-    story: "A necessary phase. Do not disturb.",
+    definition: "The highest view, looking down at the world while feeling separated from it.",
+    story: "Sitting up there makes everything below look small. It's easier to think when you're looking at the big picture.",
     gallery: [],
     timeline: [],
-    mood: ["Exhausted", "Cozy", "Quiet"],
+    mood: ["Reflective", "Quiet"],
     locations: [],
-    related: [],
-    quote: "Rest is not a luxury, it's a requirement."
+    related: ["piglet", "latenightthoughts"],
+    quote: "Distance gives perspective."
+  },
+  {
+    id: "latenightthoughts",
+    word: "Late Night Thoughts",
+    pronunciation: "/leyt nahyt thawt/",
+    category: "Thoughts",
+    created: "2026",
+    isFavorite: true,
+    definition: "Conversations that only happen when everyone else is asleep.",
+    story: "There's a specific kind of honesty that only comes out after 2 AM.",
+    gallery: [],
+    timeline: [],
+    mood: ["Honest", "Tired", "Deep"],
+    locations: [],
+    related: ["piglet", "4pm", "skybox"],
+    quote: "The world is quietest when the mind is loudest."
   }
 ];
 
@@ -116,3 +132,30 @@ export const categories = [
   { id: "Quotes", image: "https://images.unsplash.com/photo-1555529733-0e670560f7e1?auto=format&fit=crop&q=80&w=400" },
   { id: "Moments", image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=400" }
 ];
+
+export const dailyQuotes = [
+  "Some people don't become important overnight. They become familiar, one ordinary conversation at a time.",
+  "Time is just a measure of how much light we have left.",
+  "The world is quietest when the mind is loudest."
+];
+
+export const futureLetters = [
+  { id: 1, title: "To 1 Year From Now", unlockDate: "2027-01-01", content: "I hope you are still laughing as much as you did today." },
+  { id: 2, title: "To 5 Years From Now", unlockDate: "2031-01-01", content: "Did we ever make it to Norway?" },
+  { id: 3, title: "To 10 Years From Now", unlockDate: "2036-01-01", content: "I wonder if you still remember all these little moments." }
+];
+
+// Mock Vault data
+export const vaultEntries = [
+  { id: 'v1', title: "Draft Message", content: "I typed this out but never sent it. It felt too dramatic." },
+  { id: 'v2', title: "Hidden Photo", url: "https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&q=80&w=400" }
+];
+
+// Generate 30 days of mock mood data for the mood calendar
+export const mockMoods = Array.from({ length: 30 }).map((_, i) => {
+  const moods = ['😀', '🙂', '😐', '😔', '😂'];
+  return {
+    date: new Date(Date.now() - (30 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    mood: moods[Math.floor(Math.random() * moods.length)]
+  };
+});
